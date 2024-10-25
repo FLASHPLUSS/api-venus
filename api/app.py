@@ -5,7 +5,7 @@ import json
 app = Flask(__name__)
 
 # URL do arquivo JSON no Dropbox
-dropbox_url = 'https://www.dropbox.com/scl/fi/v2fuahx8uxcar2edrkk8m/Filmes_Series.json?rlkey=mjw8j0iw5047eofkcm2wkqwbo&st=a93g06rj&dl=1'
+dropbox_url = 'https://firebasestorage.googleapis.com/v0/b/venusvmax-aa14f.appspot.com/o/Filmes_Series.json?alt=media&token=800708c1-f01a-48a5-8980-4c9d2faa5ee7'
 
 def carregar_dados_json():
     try:
