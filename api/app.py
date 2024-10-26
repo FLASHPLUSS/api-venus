@@ -28,7 +28,7 @@ def filmes_series():
 
     # Parâmetros de paginação
     page = int(request.args.get('page', 1))
-    per_page = int(request.args.get('per_page', 25))
+    per_page = int(request.args.get('per_page', 27))
 
     # Cálculo da paginação
     start = (page - 1) * per_page
