@@ -1,19 +1,18 @@
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 import requests
 import json
-from functools import lru_cache
 
 app = Flask(__name__)
 
 # URL do arquivo JSON no Dropbox
-dropbox_url = 'https://www.dropbox.com/scl/fi/v2fuahx8uxcar2edrkk8m/Filmes_Series.json?rlkey=mjw8j0iw5047eofkcm2wkqwbo&st=ldnznh1z&dl=1'
+dropbox_url = 'https://firebasestorage.googleapis.com/v0/b/venusvmax-aa14f.appspot.com/o/Filmes_Series.json?alt=media&token=800708c1-f01a-48a5-8980-4c9d2faa5ee7'
 
-# Cache para armazenamento de dados JSON
-@lru_cache(maxsize=1)  # Cache com capacidade para 1 arquivo JSON
-def carregar_dados_com_cache():
+def carregar_dados_json():
     try:
+        # Fazer o download do arquivo JSON
         response = requests.get(dropbox_url)
         if response.status_code == 200:
+            # Carregar o conteúdo JSON
             dados = json.loads(response.content)
             return dados
         else:
@@ -22,20 +21,14 @@ def carregar_dados_com_cache():
         print(f"Erro ao carregar JSON: {e}")
         return []
 
-@app.route('/api/cache-filmes', methods=['GET'])
-def cache_filmes():
-    # Carregar dados do cache
-    data = carregar_dados_com_cache()
-    return jsonify(data)
-
 @app.route('/api/filmes-series', methods=['GET'])
 def filmes_series():
-    # Carregar dados do cache para paginação
-    data = carregar_dados_com_cache()
+    # Carregar dados do JSON do Dropbox
+    data = carregar_dados_json()
 
     # Parâmetros de paginação
     page = int(request.args.get('page', 1))
-    per_page = int(request.args.get('per_page', 25))
+    per_page = int(request.args.get('per_page', 27))
 
     # Cálculo da paginação
     start = (page - 1) * per_page
